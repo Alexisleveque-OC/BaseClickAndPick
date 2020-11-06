@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\AdressRepository;
+use App\Repository\AddressRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=AdressRepository::class)
+ * @ORM\Entity(repositoryClass=AddressRepository::class)
  */
-class Adress
+class Address
 {
     /**
      * @ORM\Id
@@ -20,7 +20,7 @@ class Adress
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $adress;
+    private $address;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -38,12 +38,12 @@ class Adress
     private $city;
 
     /**
-     * @ORM\OneToOne(targetEntity=User::class, inversedBy="adress", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=User::class, inversedBy="address", cascade={"persist", "remove"})
      */
     private $user;
 
     /**
-     * @ORM\OneToOne(targetEntity=Restaurant::class, mappedBy="adress", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=Restaurant::class, mappedBy="address", cascade={"persist", "remove"})
      */
     private $restaurant;
 
@@ -52,14 +52,14 @@ class Adress
         return $this->id;
     }
 
-    public function getAdress(): ?string
+    public function getaddress(): ?string
     {
-        return $this->adress;
+        return $this->address;
     }
 
-    public function setAdress(string $adress): self
+    public function setaddress(string $address): self
     {
-        $this->adress = $adress;
+        $this->address = $address;
 
         return $this;
     }
@@ -122,8 +122,8 @@ class Adress
         $this->restaurant = $restaurant;
 
         // set the owning side of the relation if necessary
-        if ($restaurant->getAdress() !== $this) {
-            $restaurant->setAdress($this);
+        if ($restaurant->getaddress() !== $this) {
+            $restaurant->setaddress($this);
         }
 
         return $this;

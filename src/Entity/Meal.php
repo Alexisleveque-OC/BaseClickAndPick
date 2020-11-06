@@ -29,12 +29,6 @@ class Meal
      */
     private $price;
 
-
-    /**
-     * @ORM\OneToMany(targetEntity=SellTo::class, mappedBy="meal")
-     */
-    private $sellTo;
-
     /**
      * @ORM\OneToMany(targetEntity=OrderLine::class, mappedBy="meal")
      */
@@ -45,6 +39,13 @@ class Meal
      * @ORM\JoinColumn(nullable=false)
      */
     private $category;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=SellTo::class, inversedBy="meals")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $sellTo;
+
 
 
 
@@ -80,37 +81,6 @@ class Meal
     public function setPrice(string $price): self
     {
         $this->price = $price;
-
-        return $this;
-    }
-
-
-    /**
-     * @return Collection|SellTo[]
-     */
-    public function getSellTo(): Collection
-    {
-        return $this->sellTo;
-    }
-
-    public function addSellTo(SellTo $sellTo): self
-    {
-        if (!$this->sellTo->contains($sellTo)) {
-            $this->sellTo[] = $sellTo;
-            $sellTo->setMeal($this);
-        }
-
-        return $this;
-    }
-
-    public function removeSellTo(SellTo $sellTo): self
-    {
-        if ($this->sellTo->removeElement($sellTo)) {
-            // set the owning side to null (unless already changed)
-            if ($sellTo->getMeal() === $this) {
-                $sellTo->setMeal(null);
-            }
-        }
 
         return $this;
     }
@@ -157,4 +127,15 @@ class Meal
         return $this;
     }
 
+    public function getSellTo(): ?SellTo
+    {
+        return $this->sellTo;
+    }
+
+    public function setSellTo(?SellTo $sellTo): self
+    {
+        $this->sellTo = $sellTo;
+
+        return $this;
+    }
 }
