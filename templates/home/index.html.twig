@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil{% endblock %}
+{% block banner %}
+    <img src="https://placehold.it/1000x200" alt="" class="banner">
+{% endblock %}
+{% block body %}
+    <section class="presentation">
+        <h1>coucou et bienvenue chez Nous</h1>
+        {% for restaurant in restaurants %}
+            <h2>{{ restaurant.name }}</h2>
+            <p class="thumbails">{{ restaurant.description }}</p>
+            <ul> (a revoir une fois la solution des horaires trouvé)
+                <li><strong>Lundi:</strong> 8h00-14h00 16h00-20h30</li>
+                <li><strong>mardi:</strong> 8h00-14h00 16h00-20h30</li>
+                <li><strong>mercredi:</strong> 8h00-14h00 16h00-20h30</li>
+                <li><strong>jeudi:</strong> 8h00-14h00 16h00-20h30</li>
+                <li><strong>vendredi:</strong> 8h00-14h00 16h00-20h30</li>
+                <li><strong>samedi:</strong> 8h00-14h00 16h00-20h30</li>
+                <li><strong>dimanche:</strong> 8h00-14h00 16h00-20h30</li>
+            </ul>
+        {% endfor %}
+    </section>
+
+    <section>
+        <h2>Menu</h2>
+    </section>
+{% endblock %}

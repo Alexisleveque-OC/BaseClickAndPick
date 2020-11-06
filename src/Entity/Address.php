@@ -52,12 +52,12 @@ class Address
         return $this->id;
     }
 
-    public function getaddress(): ?string
+    public function getAddress(): ?string
     {
         return $this->address;
     }
 
-    public function setaddress(string $address): self
+    public function setAddress(string $address): self
     {
         $this->address = $address;
 
@@ -122,8 +122,8 @@ class Address
         $this->restaurant = $restaurant;
 
         // set the owning side of the relation if necessary
-        if ($restaurant->getaddress() !== $this) {
-            $restaurant->setaddress($this);
+        if ($restaurant->getAddress() !== $this) {
+            $restaurant->setAddress($this);
         }
 
         return $this;

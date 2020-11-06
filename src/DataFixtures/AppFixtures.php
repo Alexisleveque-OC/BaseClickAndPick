@@ -125,7 +125,7 @@ class AppFixtures extends Fixture
                 $admin->setTel(intval($faker->phoneNumber));
                 $admin->setCreatedAt(new DateTime());
                 $admin->setRoles(['ROLE_ADMIN']);
-                $admin->setaddress($address);
+                $admin->setAddress($address);
                 $admin->setRestaurant($restaurant);
 
                 $manager->persist($admin);
@@ -140,7 +140,7 @@ class AppFixtures extends Fixture
                 $user->setTel(intval($faker->phoneNumber));
                 $user->setCreatedAt(new DateTime());
                 $user->setRoles(['ROLE_USER']);
-                $user->setaddress($address);
+                $user->setAddress($address);
 
                 $manager->persist($user);
 

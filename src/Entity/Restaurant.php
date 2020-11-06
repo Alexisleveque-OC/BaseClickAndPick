@@ -35,7 +35,7 @@ class Restaurant
     private $email;
 
     /**
-     * @ORM\OneToOne(targetEntity=address::class, inversedBy="restaurant", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=Address::class, inversedBy="restaurant", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $address;
