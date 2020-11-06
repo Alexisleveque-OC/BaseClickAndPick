@@ -34,16 +34,17 @@
             <li class="nav-item">
                 <a class="nav-link" href="#">Menu</a>
             </li>
+
             {% if app.user %}
-            <li class="nav-item text-right">
+            <li class="nav-item ">
                 <a class="nav-link" href="{{ path('app_logout') }}">Déconnexion</a>
             </li>
             {% else %}
-            <li class="nav-item text-right">
+            <li class="nav-item ">
                 <a class="nav-link" href="{{ path('app_login') }}">Connexion</a>
             </li>
-            <li class="nav-item text-right">
-                <a class="nav-link" href="#">Inscription</a>
+            <li class="nav-item ">
+                <a class="nav-link" href="{{ path('users_registration') }}">Inscription</a>
             </li>
             {% endif %}
         </ul>
