@@ -19,6 +19,10 @@ class UserRegisterType extends AbstractType
                 'label' => 'Votre nom et/ou prénom.',
                 'attr' => [ 'placeholder' => 'Durand Nicolas']
             ])
+            ->add('email', EmailType::class,[
+                'label' => 'Votre adresse email',
+                'attr' => [ 'placeholder' => 'coucou@exemple.com']
+            ])
             ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'first_options' => [
@@ -29,10 +33,6 @@ class UserRegisterType extends AbstractType
                     'label' => 'Confirmation de mot de passe',
                     'attr' => ['placeholder' => 'Confirmation du mot de passe']
                 ],
-            ])
-            ->add('email', EmailType::class,[
-                'label' => 'Votre adresse email',
-                'attr' => [ 'placeholder' => 'coucou@exemple.com']
             ])
             ->add('tel',null,[
                 'label' => 'Votre numéro de téléphone',

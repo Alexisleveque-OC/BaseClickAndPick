@@ -23,7 +23,10 @@ class UserRegistrationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()){
-            echo ('coucou');
+             $registerService->register($form->getData());
+
+             $this->addFlash('success','Vous avez été enregistré, vérifiez vos email pour valider votre compte !');
+            return $this->redirectToRoute('home');
         }
 
         return $this->render('security/registration.html.twig', [
