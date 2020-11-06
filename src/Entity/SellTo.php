@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\SellToRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -23,10 +25,14 @@ class SellTo
     private $value;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Meal::class, inversedBy="sellTo")
+     * @ORM\OneToMany(targetEntity=Meal::class, mappedBy="sellTo")
      */
-    private $meal;
+    private $meals;
 
+    public function __construct()
+    {
+        $this->meals = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -45,14 +51,32 @@ class SellTo
         return $this;
     }
 
-    public function getMeal(): ?Meal
+    /**
+     * @return Collection|Meal[]
+     */
+    public function getMeals(): Collection
     {
-        return $this->meal;
+        return $this->meals;
     }
 
-    public function setMeal(?Meal $meal): self
+    public function addMeal(Meal $meal): self
     {
-        $this->meal = $meal;
+        if (!$this->meals->contains($meal)) {
+            $this->meals[] = $meal;
+            $meal->setSellTo($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMeal(Meal $meal): self
+    {
+        if ($this->meals->removeElement($meal)) {
+            // set the owning side to null (unless already changed)
+            if ($meal->getSellTo() === $this) {
+                $meal->setSellTo(null);
+            }
+        }
 
         return $this;
     }

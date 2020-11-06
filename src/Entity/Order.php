@@ -35,11 +35,6 @@ class Order
      */
     private $validatedAt;
 
-    /**
-     * @ORM\OneToOne(targetEntity=OrderStatut::class, cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $orderStatut;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="orders")
@@ -56,6 +51,12 @@ class Order
      * @ORM\OneToMany(targetEntity=OrderLine::class, mappedBy="orderId")
      */
     private $orderLines;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=OrderStatut::class, inversedBy="orders")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $orderStatut;
 
     public function __construct()
     {
@@ -104,17 +105,6 @@ class Order
         return $this;
     }
 
-    public function getOrderStatut(): ?OrderStatut
-    {
-        return $this->orderStatut;
-    }
-
-    public function setOrderStatut(OrderStatut $orderStatut): self
-    {
-        $this->orderStatut = $orderStatut;
-
-        return $this;
-    }
 
     public function getUser(): ?User
     {
@@ -166,6 +156,18 @@ class Order
                 $orderLine->setOrderId(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getOrderStatut(): ?OrderStatut
+    {
+        return $this->orderStatut;
+    }
+
+    public function setOrderStatut(?OrderStatut $orderStatut): self
+    {
+        $this->orderStatut = $orderStatut;
 
         return $this;
     }

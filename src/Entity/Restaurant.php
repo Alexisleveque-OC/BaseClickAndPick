@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\RestaurantRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -33,10 +35,20 @@ class Restaurant
     private $email;
 
     /**
-     * @ORM\OneToOne(targetEntity=Adress::class, inversedBy="restaurant", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=address::class, inversedBy="restaurant", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
-    private $adress;
+    private $address;
+
+    /**
+     * @ORM\OneToMany(targetEntity=User::class, mappedBy="restaurant")
+     */
+    private $users;
+
+    public function __construct()
+    {
+        $this->users = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -79,14 +91,44 @@ class Restaurant
         return $this;
     }
 
-    public function getAdress(): ?Adress
+    public function getAddress(): ?Address
     {
-        return $this->adress;
+        return $this->address;
     }
 
-    public function setAdress(Adress $adress): self
+    public function setAddress(Address $address): self
     {
-        $this->adress = $adress;
+        $this->address = $address;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+            $user->setRestaurant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        if ($this->users->removeElement($user)) {
+            // set the owning side to null (unless already changed)
+            if ($user->getRestaurant() === $this) {
+                $user->setRestaurant(null);
+            }
+        }
 
         return $this;
     }

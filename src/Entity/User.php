@@ -6,11 +6,12 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  */
-class User
+class User implements UserInterface
 {
     /**
      * @ORM\Id
@@ -55,9 +56,9 @@ class User
     private $roles = [];
 
     /**
-     * @ORM\OneToOne(targetEntity=Adress::class, mappedBy="user", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=address::class, mappedBy="user", cascade={"persist", "remove"})
      */
-    private $adress;
+    private $address;
 
     /**
      * @ORM\OneToMany(targetEntity=Bill::class, mappedBy="user")
@@ -68,6 +69,11 @@ class User
      * @ORM\OneToMany(targetEntity=Order::class, mappedBy="user")
      */
     private $orders;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Restaurant::class, inversedBy="users")
+     */
+    private $restaurant;
 
     public function __construct()
     {
@@ -164,19 +170,19 @@ class User
         return $this;
     }
 
-    public function getAdress(): ?Adress
+    public function getAddress(): ?Address
     {
-        return $this->adress;
+        return $this->address;
     }
 
-    public function setAdress(?Adress $adress): self
+    public function setAddress(?Address $address): self
     {
-        $this->adress = $adress;
+        $this->address = $address;
 
         // set (or unset) the owning side of the relation if necessary
-        $newUser = null === $adress ? null : $this;
-        if ($adress->getUser() !== $newUser) {
-            $adress->setUser($newUser);
+        $newUser = null === $address ? null : $this;
+        if ($address->getUser() !== $newUser) {
+            $address->setUser($newUser);
         }
 
         return $this;
@@ -240,5 +246,27 @@ class User
         }
 
         return $this;
+    }
+
+    public function getRestaurant(): ?Restaurant
+    {
+        return $this->restaurant;
+    }
+
+    public function setRestaurant(?Restaurant $restaurant): self
+    {
+        $this->restaurant = $restaurant;
+
+        return $this;
+    }
+
+    public function getSalt()
+    {
+        // TODO: Implement getSalt() method.
+    }
+
+    public function eraseCredentials()
+    {
+        // TODO: Implement eraseCredentials() method.
     }
 }
