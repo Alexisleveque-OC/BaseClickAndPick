@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+J'ai oublié mon mot de passe
+{% endblock %}
+{% block description %}
+Envoyer un mail pour restaurer un mot de passe
+{% endblock %}
+{% block body %}
+    <div class="offset-2 col-8 text-center form_forgotPass">
+        {{ form_start(form) }}
+        {{ form_row(form.email) }}
+        <hr>
+        <button type="submit" class="btn btn-outline-success">Renvoyer moi un mail pour changer de mot de passe</button>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
+
+

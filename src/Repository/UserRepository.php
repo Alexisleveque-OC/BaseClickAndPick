@@ -29,6 +29,15 @@ class UserRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findOneByEmail(string $email)
+    {
+        $qb = $this->getBaseQueryBuilder();
+        self::addEmailClause($qb, $email);
+
+        return $qb->getQuery()
+            ->getResult();
+    }
+
     protected function getBaseQueryBuilder()
     {
         return $this->createQueryBuilder("u")
@@ -38,5 +47,9 @@ class UserRepository extends ServiceEntityRepository
     static function addIdClause(QueryBuilder $qb, int $id){
         return $qb->andWhere("u.id = :id")
             ->setParameter('id',$id);
+    }
+    static function addEmailClause(QueryBuilder $qb, string $email){
+        return $qb->andWhere("u.email = :email")
+            ->setParameter('email',$email);
     }
 }

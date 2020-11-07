@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="offset-2 col-8 text-center form_forgotPass">
+        {{ form_start(form) }}
+        {{ form_row(form.password) }}
+        <hr>
+        <button type="submit" class="btn btn-outline-success">Modifier mon mot de passe</button>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
+
+{% block title %}
+Créer un nouveau mot de passe
+{% endblock %}
+{% block description %}
+Créer un nouveau mot de passe sur Click and Pick
+{% endblock %}
+

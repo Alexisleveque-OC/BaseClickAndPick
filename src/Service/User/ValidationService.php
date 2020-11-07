@@ -4,9 +4,7 @@
 namespace App\Service\User;
 
 
-use App\Entity\Token;
 use App\Repository\TokenRepository;
-use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 class ValidationService
@@ -19,19 +17,13 @@ class ValidationService
      * @var TokenRepository
      */
     private TokenRepository $tokenRepository;
-    /**
-     * @var UserRepository
-     */
-    private UserRepository $userRepository;
 
     public function __construct(EntityManagerInterface $manager,
-                                TokenRepository $tokenRepository,
-                                UserRepository $userRepository)
+                                TokenRepository $tokenRepository)
     {
 
         $this->manager = $manager;
-        $this->tokenRepository = $tokenRepository;
-        $this->userRepository = $userRepository;
+        $this->tokenRepository = $tokenRepository;;
     }
 
     public function validate(string $tokenValue)
