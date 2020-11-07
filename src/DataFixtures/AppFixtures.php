@@ -11,6 +11,7 @@ use App\Entity\OrderLine;
 use App\Entity\OrderStatut;
 use App\Entity\Restaurant;
 use App\Entity\SellTo;
+use App\Entity\Token;
 use App\Entity\User;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -116,6 +117,8 @@ class AppFixtures extends Fixture
 
                 $manager->persist($restaurant);
 
+                $token = new Token();
+
                 $admin = new User();
                 $admin->setUsername('Admin');
                 $admin->setPassword('admin');
@@ -127,10 +130,16 @@ class AppFixtures extends Fixture
                 $admin->setRoles(['ROLE_ADMIN']);
                 $admin->setAddress($address);
                 $admin->setRestaurant($restaurant);
+                $admin->setValidated(true);
+                $admin->setToken($token);
 
+                $token->setUser($admin);
+                $manager->persist($token);
                 $manager->persist($admin);
             }
             else {
+                $token = new Token();
+
                 $user = new User();
                 $user->setUsername(sprintf('user%d', $i));
                 $user->setPassword('coucou');
@@ -141,7 +150,11 @@ class AppFixtures extends Fixture
                 $user->setCreatedAt(new DateTime());
                 $user->setRoles(['ROLE_USER']);
                 $user->setAddress($address);
+                $user->setValidated(true);
+                $user->setToken($token);
 
+                $token->setUser($user);
+                $manager->persist($token);
                 $manager->persist($user);
 
                 for ($m = 0; $m < mt_rand(1, 10); $m++) {
