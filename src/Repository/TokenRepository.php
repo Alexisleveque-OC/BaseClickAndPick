@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Token;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -19,32 +20,24 @@ class TokenRepository extends ServiceEntityRepository
         parent::__construct($registry, Token::class);
     }
 
-    // /**
-    //  * @return Token[] Returns an array of Token objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function findOneByToken(string $token)
     {
-        return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('t.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        $qb = $this->getBaseQueryBuilder();
+        self::addTokenClause($qb, $token);
 
-    /*
-    public function findOneBySomeField($value): ?Token
-    {
-        return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        return $qb->getQuery()
+            ->getResult();
     }
-    */
+
+    protected function getBaseQueryBuilder()
+    {
+        return $this->createQueryBuilder("t")
+            ->select('t, u')
+            ->leftJoin('t.user', 'u');
+    }
+
+    static function addTokenClause(QueryBuilder $qb, string $token){
+        return $qb->andWhere("t.token = :token")
+            ->setParameter('token',$token);
+    }
 }

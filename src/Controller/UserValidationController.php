@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Service\User\ValidationService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -9,12 +10,17 @@ use Symfony\Component\Routing\Annotation\Route;
 class UserValidationController extends AbstractController
 {
     /**
-     * @Route("/user/validation", name="user_validation")
+     * @Route("/users/validation/{token}", name="user_validation")
+     * @param string $token
+     * @param ValidationService $validationService
+     * @return Response
      */
-    public function index(): Response
+    public function validation(string $token, ValidationService $validationService): Response
     {
-        return $this->render('user_validation/index.html.twig', [
-            'controller_name' => 'UserValidationController',
-        ]);
+        $validationService->validate($token);
+
+        $this->addFlash('success', 'Votre compte a été correctement validé !!!');
+
+        return $this->render('security/accountValidated.html.twig');
     }
 }
