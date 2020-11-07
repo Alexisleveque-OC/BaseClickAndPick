@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+Compte validé!
+{% endblock %}
+
+{% block body %}
+
+    <div class="offset-1 col-10">
+        <h2 id="account-validated">Félicitations votre compte à été correctement validé.</h2>
+    </div>
+    <div class="offset-xs-1 col-xs-10 offset-sm-4 col-sm-4 text-center">
+        {% if app.user %}
+            <a href="{{ path('home') }}" class="btn btn-primary">
+                Cliquez ici pour retourner à l'accueil</a>
+        {% else %}
+            <a href="{{ path('app_login') }}" class="btn btn-primary ">
+                Cliquez ici pour allez vous connecter!</a>
+        {% endif %}
+    </div>
+{% endblock %}
+
+

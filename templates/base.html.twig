@@ -34,16 +34,31 @@
             <li class="nav-item">
                 <a class="nav-link" href="#">Menu</a>
             </li>
-            <li class="nav-item push-right">
-                <a class="nav-link" href="#">Connexion</a>
+
+            {% if app.user %}
+            <li class="nav-item ">
+                <a class="nav-link" href="{{ path('app_logout') }}">Déconnexion</a>
             </li>
-            <li class="nav-item push-right">
-                <a class="nav-link" href="#">Inscription</a>
+            {% else %}
+            <li class="nav-item ">
+                <a class="nav-link" href="{{ path('app_login') }}">Connexion</a>
             </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="{{ path('users_registration') }}">Inscription</a>
+            </li>
+            {% endif %}
         </ul>
     </div>
 </nav>
 {% block banner %}{% endblock %}
+
+{% for label, messages in app.flashes %}
+    {% for message in messages %}
+        <div id="alert" class="alert alert-{{ label }}" tabindex="1">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endfor %}
 <div class="container">
     {% block body %}{% endblock %}
 </div>

@@ -21,16 +21,15 @@ class RestaurantRepository extends ServiceEntityRepository
 
     public function findAllRestaurants()
     {
-        $qb = $this->getBaseQueryBuilder()
+        return $this->getBaseQueryBuilder()
             ->getQuery()
             ->getResult();
-        return $qb;
     }
 
     protected function getBaseQueryBuilder()
     {
-        return $this->createQueryBuilder("t")
-            ->select('t');
+        return $this->createQueryBuilder("r")
+            ->select('r');
     }
 
 }

@@ -75,6 +75,16 @@ class User implements UserInterface
      */
     private $restaurant;
 
+    /**
+     * @ORM\OneToOne(targetEntity=Token::class, mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $token;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $validated;
+
     public function __construct()
     {
         $this->bills = new ArrayCollection();
@@ -262,11 +272,38 @@ class User implements UserInterface
 
     public function getSalt()
     {
-        // TODO: Implement getSalt() method.
     }
 
     public function eraseCredentials()
     {
-        // TODO: Implement eraseCredentials() method.
+    }
+
+    public function getToken(): ?Token
+    {
+        return $this->token;
+    }
+
+    public function setToken(Token $token): self
+    {
+        $this->token = $token;
+
+        // set the owning side of the relation if necessary
+        if ($token->getUser() !== $this) {
+            $token->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function getValidated(): ?bool
+    {
+        return $this->validated;
+    }
+
+    public function setValidated(bool $validated ): self
+    {
+        $this->validated = $validated;
+
+        return $this;
     }
 }
