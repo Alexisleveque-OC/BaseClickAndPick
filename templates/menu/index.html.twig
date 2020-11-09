@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion du menu{% endblock %}
+{% block description %}
+    Gérer le menu!
+{% endblock %}
+{% block body %}
+    <a href="">Créer un Plat</a>
+    <section>
+        <h2 class="menu">Menu</h2>
+        <div class="row">
+            {% for category in categories %}
+                <div class="col-sm-6 col-lg-4">
+                    <h4>{{ category.name }}</h4>
+                    <table class="table table-striped">
+                        <thead class="thead-light">
+                        <tr>
+                            <th>Plat</th>
+                            <th>Prix</th>
+                            <th>Vendu au</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for meal in category.meals %}
+                            <tr class="col-3">
+                                <td >
+                                    <strong>{{ meal.name }}</strong>
+                                </td>
+                                <td>{{ meal.price }}</td>
+                                <td>{{ meal.sellTo.value }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+{% endblock %}

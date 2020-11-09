@@ -40,6 +40,11 @@
                 <li class="nav-item ">
                     <a class="nav-link hello-user" href="#">Bonjour {{ app.user.username }}</a>
                 </li>
+                {% if is_granted('MEAL_CREATE') %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('menu_management') }}">Gestion du menu</a>
+                </li>
+                    {% endif %}
                 <li>
                     <a class="nav-link" id="logout" href="{{ path('app_logout') }}">Déconnexion</a>
                 </li>
