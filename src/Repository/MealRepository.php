@@ -19,6 +19,20 @@ class MealRepository extends ServiceEntityRepository
         parent::__construct($registry, Meal::class);
     }
 
+    public function findAllMealsByCategory()
+    {
+        $qb = $this->getBaseQueryBuilder();
+
+        return $qb->getQuery()
+            ->getResult();
+    }
+
+    protected function getBaseQueryBuilder()
+    {
+        return $this->createQueryBuilder("m")
+            ->select('m')
+            ->leftJoin('m.category','c');
+    }
     // /**
     //  * @return Meal[] Returns an array of Meal objects
     //  */
