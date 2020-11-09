@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class UserResetPassController extends AbstractController
 {
     /**
-     * @Route("/users/resetPass/{token}", name="user_reset_pass")
+     * @Route("/users/reset-pass/{token}", name="user_reset_pass")
      * @param Request $request
      * @param string $token
      * @param ResetPassService $resetPass
@@ -22,6 +22,9 @@ class UserResetPassController extends AbstractController
      */
     public function resetPass(Request $request, string $token, ResetPassService $resetPass): Response
     {
+        if ($this->getUser()){
+            return $this->redirectToRoute('home');
+        }
         $form = $this->createForm(NewPassType::class);
         $form->handleRequest($request);
 
