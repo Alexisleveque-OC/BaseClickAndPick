@@ -17,6 +17,9 @@ class UserValidationController extends AbstractController
      */
     public function validation(string $token, ValidationService $validationService): Response
     {
+        if ($this->getUser()){
+            return $this->redirectToRoute('home');
+        }
         $validationService->validate($token);
 
         $this->addFlash('success', 'Votre compte a été correctement validé !!!');

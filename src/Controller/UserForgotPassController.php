@@ -21,6 +21,9 @@ class UserForgotPassController extends AbstractController
      */
     public function forgotPass(Request $request, ResetTokenService $resetToken, Mailer $mailer): Response
     {
+        if ($this->getUser()){
+            return $this->redirectToRoute('home');
+        }
         $form = $this->createForm(ForgotPassType::class);
         $form->handleRequest($request);
 

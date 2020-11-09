@@ -20,6 +20,9 @@ class UserRegistrationController extends AbstractController
      */
     public function index(Request $request, RegisterService $registerService, Mailer $mailer): Response
     {
+        if ($this->getUser()){
+            return $this->redirectToRoute('home');
+        }
         $form = $this->createForm(UserRegisterType::class);
         $form->handleRequest($request);
 

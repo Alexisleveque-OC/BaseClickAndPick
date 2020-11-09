@@ -118,6 +118,7 @@ class AppFixtures extends Fixture
                 $manager->persist($restaurant);
 
                 $token = new Token();
+                $token->setToken('123456789');
 
                 $admin = new User();
                 $admin->setUsername('Admin');
@@ -139,6 +140,9 @@ class AppFixtures extends Fixture
             }
             else {
                 $token = new Token();
+                if($i == 1){
+                    $token->setToken('987654321');
+                }
 
                 $user = new User();
                 $user->setUsername(sprintf('user%d', $i));
