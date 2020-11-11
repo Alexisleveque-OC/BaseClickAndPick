@@ -11,7 +11,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class MealVoter extends Voter
 {
-    const MEAL_CREATE = "MEAL_CREATE";
+    const MENU_EDIT = "MENU_EDIT";
     /**
      * @var Security
      */
@@ -24,7 +24,7 @@ class MealVoter extends Voter
 
     protected function supports(string $attribute, $subject)
     {
-        return in_array($attribute,[self::MEAL_CREATE]);
+        return in_array($attribute,[self::MENU_EDIT]);
     }
 
     protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token)
@@ -34,7 +34,7 @@ class MealVoter extends Voter
             return false;
         }
         switch ($attribute){
-            case self::MEAL_CREATE:
+            case self::MENU_EDIT:
                 return $this->security->isGranted("ROLE_ADMIN");
         }
         return false;

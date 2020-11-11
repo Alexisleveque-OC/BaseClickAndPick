@@ -52,7 +52,6 @@ class Meal
     public function __construct()
     {
         $this->orderId = new ArrayCollection();
-        $this->sellTo = new ArrayCollection();
         $this->orderLines = new ArrayCollection();
     }
 

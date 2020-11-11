@@ -5,13 +5,14 @@
     Gérer le menu!
 {% endblock %}
 {% block body %}
-    <a href="">Créer un Plat</a>
+    {{ include('Modal/MealCreate.html.twig') }}
     <section>
         <h2 class="menu">Menu</h2>
         <div class="row">
             {% for category in categories %}
                 <div class="col-sm-6 col-lg-4">
-                    <h4>{{ category.name }}</h4>
+                    <h4>{{ category.name }}
+                    </h4>
                     <table class="table table-striped">
                         <thead class="thead-light">
                         <tr>
@@ -32,8 +33,25 @@
                         {% endfor %}
                         </tbody>
                     </table>
+                    <button class="open-modal btn btn-primary"
+                            data-category-title="{{ category.name }}"
+                            data-category-id="{{ category.id }}">Ajouter un(e) {{ category.name }}</button>
                 </div>
             {% endfor %}
         </div>
     </section>
+{% endblock %}
+
+
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $('.open-modal').click(function(){
+                $('#MealCreateModal').modal('toggle');
+                $('#MealCreateModal').find('.modal-title').text(this.dataset.categoryTitle);
+                $('#MealCreateModal').find('#meal_category').val(this.dataset.categoryId);
+            });
+    </script>
+
 {% endblock %}

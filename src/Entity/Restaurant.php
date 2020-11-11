@@ -45,6 +45,11 @@ class Restaurant
      */
     private $users;
 
+    /**
+     * @ORM\Column(type="json", nullable=true)
+     */
+    private $planning = [];
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
@@ -129,6 +134,18 @@ class Restaurant
                 $user->setRestaurant(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPlanning(): ?array
+    {
+        return $this->planning;
+    }
+
+    public function setPlanning(?array $planning): self
+    {
+        $this->planning = $planning;
 
         return $this;
     }

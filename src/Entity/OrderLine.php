@@ -24,7 +24,7 @@ class OrderLine
 
     /**
      * @ORM\ManyToOne(targetEntity=Order::class, inversedBy="orderLines")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, name="order_id")
      */
     private $orderId;
 
