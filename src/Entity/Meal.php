@@ -30,7 +30,7 @@ class Meal
     private $price;
 
     /**
-     * @ORM\OneToMany(targetEntity=OrderLine::class, mappedBy="meal")
+     * @ORM\OneToMany(targetEntity=OrderLine::class, mappedBy="meal", cascade={"persist"})
      */
     private $orderLines;
 

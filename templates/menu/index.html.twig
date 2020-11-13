@@ -6,6 +6,7 @@
 {% endblock %}
 {% block body %}
     {{ include('Modal/MealCreate.html.twig') }}
+    {{ include('Modal/MealDeleteModal.html.twig') }}
     <section>
         <h2 class="menu">Menu</h2>
         <div class="row">
@@ -29,13 +30,29 @@
                                 </td>
                                 <td>{{ meal.price }}</td>
                                 <td>{{ meal.sellTo.value }}</td>
+                                <td>
+                                    <button class="open-modal-delete"
+                                    data-meal-name="{{ meal.name }}"
+                                    data-meal-id="{{ meal.id }}">
+                                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-x-circle"
+                                             fill="red" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd"
+                                                  d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                            <path fill-rule="evenodd"
+                                                  d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                                        </svg>
+                                    </button>
+
+{#                                    {{ include('Modal/MealDeleteModal.html.twig') }}#}
+                                </td>
                             </tr>
                         {% endfor %}
                         </tbody>
                     </table>
-                    <button class="open-modal btn btn-primary"
+                    <button class="open-modal-create btn btn-primary"
                             data-category-title="{{ category.name }}"
-                            data-category-id="{{ category.id }}">Ajouter un(e) {{ category.name }}</button>
+                            data-category-id="{{ category.id }}">Ajouter un(e) {{ category.name }}
+                    </button>
                 </div>
             {% endfor %}
         </div>
@@ -45,11 +62,18 @@
 {% block javascripts %}
     {{ parent() }}
     <script>
-        $('.open-modal').click(function(){
+        $('.open-modal-create').click(function(){
                 $('#MealCreateModal').modal('toggle');
                 $('#MealCreateModal').find('.modal-title').text(this.dataset.categoryTitle);
                 $('#MealCreateModal').find('#meal_category').val(this.dataset.categoryId);
             });
+    </script>
+    <script>
+        $('.open-modal-delete').click(function(){
+            $('#mealDeleteModal').modal('toggle');
+            $('#mealDeleteModal').find('.modal-title').text(this.dataset.mealName);
+            $('#mealDeleteModal').find('#formDelete').attr("action","/meals/delete/"+this.dataset.mealId);
+        });
     </script>
 
 {% endblock %}
