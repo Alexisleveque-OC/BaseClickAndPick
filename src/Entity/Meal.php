@@ -29,10 +29,6 @@ class Meal
      */
     private $price;
 
-    /**
-     * @ORM\OneToMany(targetEntity=OrderLine::class, mappedBy="meal", cascade={"persist"})
-     */
-    private $orderLines;
 
     /**
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="meals")
@@ -46,8 +42,10 @@ class Meal
      */
     private $sellTo;
 
-
-
+    /**
+     * @ORM\OneToMany(targetEntity=OrderLine::class, mappedBy="meal")
+     */
+    private $orderLines;
 
     public function __construct()
     {
@@ -84,6 +82,31 @@ class Meal
         return $this;
     }
 
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): self
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
+    public function getSellTo(): ?SellTo
+    {
+        return $this->sellTo;
+    }
+
+    public function setSellTo(?SellTo $sellTo): self
+    {
+        $this->sellTo = $sellTo;
+
+        return $this;
+    }
+
     /**
      * @return Collection|OrderLine[]
      */
@@ -114,27 +137,4 @@ class Meal
         return $this;
     }
 
-    public function getCategory(): ?Category
-    {
-        return $this->category;
-    }
-
-    public function setCategory(?Category $category): self
-    {
-        $this->category = $category;
-
-        return $this;
-    }
-
-    public function getSellTo(): ?SellTo
-    {
-        return $this->sellTo;
-    }
-
-    public function setSellTo(?SellTo $sellTo): self
-    {
-        $this->sellTo = $sellTo;
-
-        return $this;
-    }
 }
