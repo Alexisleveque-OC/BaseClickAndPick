@@ -9,7 +9,9 @@
                 </button>
             </div>
             <div class="modal-body">
-                {{ form_start(formMeal, {'action': path('meal_create')
+                {{ form_start(formMeal, {
+                    'action': path('meal_create') ,
+                    'attr' : {'id' : 'form-create'}
                 }) }}
                 {{ form_row(formMeal.name) }}
                 {{ form_row(formMeal.price) }}

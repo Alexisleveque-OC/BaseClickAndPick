@@ -2,7 +2,7 @@
   width: 100%;
 }
 
-.open-modal-delete{
+.open-modal-delete, .open-modal-edit{
   border: none;
   background-color: rgba(0,0,0,0);
 }

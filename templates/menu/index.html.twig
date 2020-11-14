@@ -25,15 +25,29 @@
                         <tbody>
                         {% for meal in category.meals %}
                             <tr class="col-3">
-                                <td >
+                                <td>
                                     <strong>{{ meal.name }}</strong>
                                 </td>
                                 <td>{{ meal.price }}</td>
                                 <td>{{ meal.sellTo.value }}</td>
                                 <td>
+                                    <button class="open-modal-edit"
+                                            data-meal-name="{{ meal.name }}"
+                                            data-meal-id="{{ meal.id }}"
+                                            data-meal-price="{{ meal.price }}"
+                                            data-meal-sell-to="{{ meal.sellTo.id }}"
+                                            data-meal-category="{{ meal.category.id }}">
+                                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil"
+                                             fill="green" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd"
+                                                  d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5L13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175l-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
+                                        </svg>
+                                    </button>
+                                </td>
+                                <td>
                                     <button class="open-modal-delete"
-                                    data-meal-name="{{ meal.name }}"
-                                    data-meal-id="{{ meal.id }}">
+                                            data-meal-name="{{ meal.name }}"
+                                            data-meal-id="{{ meal.id }}">
                                         <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-x-circle"
                                              fill="red" xmlns="http://www.w3.org/2000/svg">
                                             <path fill-rule="evenodd"
@@ -61,16 +75,32 @@
     {{ parent() }}
     <script>
         $('.open-modal-create').click(function(){
-                $('#MealCreateModal').modal('toggle');
-                $('#MealCreateModal').find('.modal-title').text(this.dataset.categoryTitle);
-                $('#MealCreateModal').find('#meal_category').val(this.dataset.categoryId);
-            });
+            $('#MealCreateModal').modal('toggle');
+            $('#MealCreateModal').find('.modal-title').text(this.dataset.categoryTitle);
+            $('#MealCreateModal').find('#meal_category').val(this.dataset.categoryId);
+        });
+
     </script>
     <script>
-        $('.open-modal-delete').click(function(){
+        $('.open-modal-delete').click(function () {
             $('#mealDeleteModal').modal('toggle');
             $('#mealDeleteModal').find('.modal-title').text(this.dataset.mealName);
-            $('#mealDeleteModal').find('#formDelete').attr("action","/meals/delete/"+this.dataset.mealId);
+            $('#mealDeleteModal').find('#formDelete').attr("action", "/meals/delete/" + this.dataset.mealId);
+        });
+    </script>
+    <script>
+        $('.open-modal-edit').click(function () {
+            var sellToValue = this.dataset.mealSellTo;
+            var categoryValue = this.dataset.mealCategory
+            $('#MealCreateModal').modal('toggle');
+            $('#MealCreateModal').find('.modal-title').text(this.dataset.mealName);
+            $('#MealCreateModal').find('#meal_name').attr('value', this.dataset.mealName);
+            $('#MealCreateModal').find('#meal_price').attr('value', this.dataset.mealPrice);
+            $('#MealCreateModal').find('#meal_sellTo option[value="'+sellToValue+'"]').prop('selected', true);
+            $('#MealCreateModal').find('#meal_category').attr('style',"display:true");
+            // $('#MealCreateModal').find('#meal_category').attr('label', 'Categorie');
+            $('#MealCreateModal').find('#meal_category option[value="'+categoryValue+'"]').prop('selected', true);
+            $('#MealCreateModal').find('#form-create').attr("action", "/meals/edit/" + this.dataset.mealId);
         });
     </script>
 

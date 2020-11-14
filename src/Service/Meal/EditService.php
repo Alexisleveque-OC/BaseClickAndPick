@@ -7,7 +7,7 @@ namespace App\Service\Meal;
 use App\Entity\Meal;
 use Doctrine\ORM\EntityManagerInterface;
 
-class CreateMealService
+class EditService
 {
     /**
      * @var EntityManagerInterface
@@ -19,11 +19,14 @@ class CreateMealService
         $this->manager = $manager;
     }
 
-    public function createMeal(Meal $meal)
+    public function editMeal(Meal $meal, Meal $mealEdited)
     {
+        $meal->setName($mealEdited->getName())
+            ->setPrice($mealEdited->getPrice())
+            ->setSellTo($mealEdited->getSellTo())
+            ->setCategory($mealEdited->getCategory());
+
         $this->manager->persist($meal);
         $this->manager->flush();
-
-        return $meal;
     }
 }
