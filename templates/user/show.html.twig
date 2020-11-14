@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profil de {{ user.username }}{% endblock %}
+{% block description %}
+    Profil de l'utilisateur {{ user.username }}
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="title-user">
+            {% if app.user == user %}
+                <h1 class="user_show">Les informations sur votre compte : {{ app.user.username }}</h1>
+            {% else %}
+                <h1 class="user_show">Vous regarder le profil de : {{ user.username }}</h1>
+            {% endif %}
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12 col-sm-3 img-thumbnail">
+                <h4>Adresse de facturation:</h4>
+                <ul class="list-unstyled">
+                    <li><strong>Nom : </strong>{{ user.username }}</li>
+                    <li><strong>Adresse : </strong>{{ user.address.address }}</li>
+                    {% if user.address.complement %}
+                        <li><strong>complément : </strong>{{ user.address.complement }}</li>
+                    {% endif %}
+                    <li><strong>Code postal : </strong>{{ user.address.zipCode }}</li>
+                    <li><strong>Ville : </strong>{{ user.address.city }}</li>
+                </ul>
+            </div>
+            <div class="col-xs-12 offset-sm-1 col-sm-8 img-thumbnail">
+                <h4>Résumé des informations</h4>
+                <p><strong>Email : </strong>{{ user.email }}</p>
+                <p><strong>Télephone : </strong>{{ user.tel }}</p>
+                <p><strong>Compte crée le : </strong>
+                    {{ user.createdAt | date('d/m/Y') }} à {{ user.createdAt | date('h:i') }}
+                </p>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

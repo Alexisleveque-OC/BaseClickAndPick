@@ -20,19 +20,18 @@ class UserRepository extends ServiceEntityRepository
         parent::__construct($registry, User::class);
     }
 
-    public function findOneById(string $token)
-    {
-        $qb = $this->getBaseQueryBuilder();
-        self::addIdClause($qb, $token);
-
-        return $qb->getQuery()
-            ->getResult();
-    }
-
     public function findOneByEmail(string $email)
     {
         $qb = $this->getBaseQueryBuilder();
         self::addEmailClause($qb, $email);
+
+        return $qb->getQuery()
+            ->getResult();
+    }
+    public function findOneById(int $id)
+    {
+        $qb = $this->getBaseQueryBuilder();
+        self::addIdClause($qb, $id);
 
         return $qb->getQuery()
             ->getResult();
