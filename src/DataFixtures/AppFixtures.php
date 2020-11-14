@@ -193,9 +193,9 @@ class AppFixtures extends Fixture
                     $manager->persist($order);
                     $manager->persist($bill);
                     for($n = 0; $n < mt_rand(0,8); $n++){
-                        $orderLine = new OrderLine();
+                        $orderLine = new OrderLine($meals[(mt_rand(1, count($meals)-1))]);
                         $orderLine->setQuantity(mt_rand(1,20))
-                            ->setMeal($meals[(mt_rand(1, count($meals)-1))])
+//                            ->setMeal($meals[(mt_rand(1, count($meals)-1))])
                             ->setOrderId($order);
                         $manager->persist($orderLine);
                     }

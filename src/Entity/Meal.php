@@ -29,10 +29,6 @@ class Meal
      */
     private $price;
 
-    /**
-     * @ORM\OneToMany(targetEntity=OrderLine::class, mappedBy="meal")
-     */
-    private $orderLines;
 
     /**
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="meals")
@@ -46,13 +42,14 @@ class Meal
      */
     private $sellTo;
 
-
-
+    /**
+     * @ORM\OneToMany(targetEntity=OrderLine::class, mappedBy="meal")
+     */
+    private $orderLines;
 
     public function __construct()
     {
         $this->orderId = new ArrayCollection();
-        $this->sellTo = new ArrayCollection();
         $this->orderLines = new ArrayCollection();
     }
 
@@ -81,6 +78,31 @@ class Meal
     public function setPrice(string $price): self
     {
         $this->price = $price;
+
+        return $this;
+    }
+
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): self
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
+    public function getSellTo(): ?SellTo
+    {
+        return $this->sellTo;
+    }
+
+    public function setSellTo(?SellTo $sellTo): self
+    {
+        $this->sellTo = $sellTo;
 
         return $this;
     }
@@ -115,27 +137,4 @@ class Meal
         return $this;
     }
 
-    public function getCategory(): ?Category
-    {
-        return $this->category;
-    }
-
-    public function setCategory(?Category $category): self
-    {
-        $this->category = $category;
-
-        return $this;
-    }
-
-    public function getSellTo(): ?SellTo
-    {
-        return $this->sellTo;
-    }
-
-    public function setSellTo(?SellTo $sellTo): self
-    {
-        $this->sellTo = $sellTo;
-
-        return $this;
-    }
 }

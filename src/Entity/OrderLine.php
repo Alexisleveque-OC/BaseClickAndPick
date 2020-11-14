@@ -23,17 +23,31 @@ class OrderLine
     private $quantity;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $mealName;
+
+    /**
+     * @ORM\Column(type="decimal", precision=5, scale=2)
+     */
+    private $mealPrice;
+
+    /**
      * @ORM\ManyToOne(targetEntity=Order::class, inversedBy="orderLines")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, name="order_id")
      */
     private $orderId;
 
     /**
      * @ORM\ManyToOne(targetEntity=Meal::class, inversedBy="orderLines")
-     * @ORM\JoinColumn(nullable=false)
      */
     private $meal;
-
+public function __construct($meal)
+{
+    $this->meal = $meal;
+    $this->mealName = $this->getMeal()->getName();
+    $this->mealPrice = $this->getMeal()->getPrice();
+}
 
     public function getId(): ?int
     {
@@ -52,18 +66,6 @@ class OrderLine
         return $this;
     }
 
-    public function getOrderId(): ?Order
-    {
-        return $this->orderId;
-    }
-
-    public function setOrderId(?Order $orderId): self
-    {
-        $this->orderId = $orderId;
-
-        return $this;
-    }
-
     public function getMeal(): ?Meal
     {
         return $this->meal;
@@ -75,4 +77,51 @@ class OrderLine
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getMealName()
+    {
+        return $this->mealName;
+    }
+
+    /**
+     */
+    public function setMealName(): void
+    {
+        $this->mealName = $this->getMeal()->getName();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMealPrice()
+    {
+        return $this->mealPrice;
+    }
+
+    /**
+     */
+    public function setMealPrice(): void
+    {
+        $this->mealPrice = $this->getMeal()->getPrice();
+    }
+    /**
+     * @return mixed
+     */
+    public function getOrderId()
+    {
+        return $this->orderId;
+    }
+
+    /**
+     * @param mixed $orderId
+     */
+    public function setOrderId($orderId): void
+    {
+        $this->orderId = $orderId;
+    }
+
+
 }
