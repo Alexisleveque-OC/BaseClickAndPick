@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}liste des clients{% endblock %}
+{% block description %}
+    Liste des clients
+{% endblock %}
+
+{% block body %}
+    <h1>Liste des clients</h1>
+    <table class="table table-striped">
+        <thead class="thead-light">
+        <tr>
+            <th>Nom</th>
+            <th>Téléphone</th>
+            <th>Email</th>
+            <th>Note</th>
+            <th>Nombre de Commande</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td><a href="{{ path('user_show',{'id': user.id}) }}">{{ user.username }}</a></td>
+                <td>{{ user.tel }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.note }}</td>
+                <td>{{ user.orders | length }}</td>
+{#                TODO : Rajouter un lien pour voir les commandes de ce client#}
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+{% endblock %}

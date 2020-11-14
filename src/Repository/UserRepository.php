@@ -20,6 +20,15 @@ class UserRepository extends ServiceEntityRepository
         parent::__construct($registry, User::class);
     }
 
+    public function findAllByUsername()
+    {
+        $qb = $this->getBaseQueryBuilder();
+        self::addUsernameOrder($qb);
+
+        return $qb->getQuery()
+            ->getResult();
+    }
+
     public function findOneByEmail(string $email)
     {
         $qb = $this->getBaseQueryBuilder();
@@ -50,5 +59,8 @@ class UserRepository extends ServiceEntityRepository
     static function addEmailClause(QueryBuilder $qb, string $email){
         return $qb->andWhere("u.email = :email")
             ->setParameter('email',$email);
+    }
+    static function addUsernameOrder(QueryBuilder $qb){
+        return $qb->addOrderBy("u.username");
     }
 }

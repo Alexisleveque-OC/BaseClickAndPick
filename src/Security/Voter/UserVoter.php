@@ -14,6 +14,7 @@ class UserVoter extends Voter
 {
 
     const USER_SHOW = "USER_SHOW";
+    const USER_LIST = "USER_LIST";
     /**
      * @var Security
      */
@@ -26,7 +27,8 @@ class UserVoter extends Voter
 
     protected function supports(string $attribute, $subject)
     {
-        return (in_array($attribute,[self::USER_SHOW])
+        return in_array($attribute,[self::USER_LIST]) ||
+            (in_array($attribute,[self::USER_SHOW])
                 && $subject instanceof User);
     }
 
@@ -42,7 +44,8 @@ class UserVoter extends Voter
             ):
                 return $this->security->isGranted("ROLE_ADMIN") ||
                     $subject === $user;
-
+            case self::USER_LIST :
+                return $this->security->isGranted("ROLE_ADMIN");
         }
         return false;
     }
