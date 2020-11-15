@@ -39,7 +39,9 @@ class UserRegisterType extends AbstractType
                 'label' => 'Votre numéro de téléphone',
                 'attr' => [ 'placeholder' => '06.06.06.06.06']
             ])
-            ->add('address',AddressRegisterType::class)
+            ->add('address',AddressRegisterType::class,[
+                'label' => false
+            ])
         ;
     }
 

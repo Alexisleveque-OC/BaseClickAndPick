@@ -72,4 +72,16 @@ class RegisterService
 
         return $token;
     }
+
+    public function editUser(User $user)
+    {
+        $hash = $this->encoder->encodePassword($user, $user->getPassword());
+        $user->setPassword($hash)
+            ->setAddress($user->getAddress());
+        $this->manager->persist($user);
+
+        $this->manager->flush();
+
+        return $user;
+    }
 }
