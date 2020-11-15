@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}liste des clients{% endblock %}
+{% block description %}
+    Liste des clients
+{% endblock %}
+
+{% block body %}
+    {{ include('Modal/UserAddNoteModal.html.twig') }}
+    <h1>Liste des clients</h1>
+    <table class="table table-striped">
+        <thead class="thead-light">
+        <tr>
+            <th>Nom</th>
+            <th>Téléphone</th>
+            <th>Email</th>
+            <th>Note</th>
+            <th>Nombre de Commande</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            {% if user.deleted == false %}
+            <tr>
+                <td><a href="{{ path('user_show',{'id': user.id}) }}">{{ user.username }}</a></td>
+                <td>{{ user.tel }}</td>
+                <td>{{ user.email }}</td>
+                <td>
+                    <button class="open-modal-add-note"
+                            data-user-name="{{ user.username }}"
+                            data-user-id="{{ user.id }}">
+                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil"
+                         fill="green" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd"
+                              d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5L13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175l-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
+                    </svg>
+                    </button>
+                    {{ user.note }}
+                </td>
+                <td>{{ user.orders | length }}</td>
+{#                TODO : Rajouter un lien pour voir les commandes de ce client#}
+            </tr>
+            {% endif %}
+        {% endfor %}
+
+        </tbody>
+    </table>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $('.open-modal-add-note').click(function () {
+            $('#UserAddNoteModal').modal('toggle');
+            $('#UserAddNoteModal').find('.modal-title').text(this.dataset.userName);
+            $('#UserAddNoteModal').find('#formAddNote').attr("action", "/user/add-note/" + this.dataset.userId);
+        });
+    </script>
+{% endblock %}

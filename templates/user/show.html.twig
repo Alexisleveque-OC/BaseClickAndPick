@@ -1,0 +1,89 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profil de {{ user.username }}{% endblock %}
+{% block description %}
+    Profil de l'utilisateur {{ user.username }}
+{% endblock %}
+
+{% block body %}
+    {% include ('Modal/UserDeleteModal.html.twig') %}
+    {% include ('Modal/UserAddNoteModal.html.twig') %}
+    <div class="container">
+        <div class="title-user">
+            {% if app.user == user %}
+                <h1 class="user_show">Les informations sur votre compte : {{ app.user.username }}</h1>
+            {% else %}
+                <h1 class="user_show">Vous regarder le profil de : {{ user.username }}</h1>
+            {% endif %}
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12 col-sm-3 img-thumbnail">
+                <h4>Adresse de facturation:</h4>
+                <ul class="list-unstyled">
+                    <li><strong>Nom : </strong>{{ user.username }}</li>
+                    <li><strong>Adresse : </strong>{{ user.address.address }}</li>
+                    {% if user.address.complement %}
+                        <li><strong>complément : </strong>{{ user.address.complement }}</li>
+                    {% endif %}
+                    <li><strong>Code postal : </strong>{{ user.address.zipCode }}</li>
+                    <li><strong>Ville : </strong>{{ user.address.city }}</li>
+                </ul>
+            </div>
+            <div class="col-xs-12 offset-sm-1 col-sm-8 img-thumbnail">
+
+                <h4>Résumé des informations</h4>
+                <p><strong>Email : </strong>{{ user.email }}</p>
+                <p><strong>Télephone : </strong>{{ user.tel }}</p>
+                <p><strong>Compte crée le : </strong>
+                    {{ user.createdAt | date('d/m/Y') }} à {{ user.createdAt | date('h:i') }}
+                </p>
+                {% if is_granted('USER_ADD_NOTE') %}
+                    <p><strong>note : </strong>{{ user.note }}</p>
+                    <button class="btn btn-primary open-modal-add-note"
+                    data-user-name="{{ user.username }}"
+                    data-user-id="{{ user.id }}">
+                        Ajouter une note
+                    </button>
+                {% endif %}
+
+                {% if user.deleted == true %}
+                    <p>Cette utilisateur est supprimé</p>
+                {% else %}
+                <button class="open-modal-delete btn btn-danger"
+                        data-user-name="{{ user.username }}"
+                        data-user-id="{{ user.id }}"> supprimer ce compte
+                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-x-circle"
+                         fill="red" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd"
+                              d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                        <path fill-rule="evenodd"
+                              d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                    </svg>
+                </button>
+                {% endif %}
+
+                <a href="{{ path('user_edit',{'id': user.id}) }}" class="btn btn-success"> Modifier les informations </a>
+
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+{% block javascripts %}
+{{ parent() }}
+    <script>
+        $('.open-modal-delete').click(function () {
+            $('#userDeleteModal').modal('toggle');
+            $('#userDeleteModal').find('.modal-title').text(this.dataset.userName);
+            $('#userDeleteModal').find('#formDelete').attr("action", "/users/delete/" + this.dataset.userId);
+        });
+    </script>
+    <script>
+        $('.open-modal-add-note').click(function () {
+            $('#UserAddNoteModal').modal('toggle');
+            $('#UserAddNoteModal').find('.modal-title').text(this.dataset.userName);
+            $('#UserAddNoteModal').find('#formAddNote').attr("action", "/user/add-note/" + this.dataset.userId);
+        });
+    </script>
+{% endblock %}

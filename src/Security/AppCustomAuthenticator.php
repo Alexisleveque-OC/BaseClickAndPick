@@ -79,8 +79,11 @@ class AppCustomAuthenticator extends AbstractFormLoginAuthenticator implements P
 
     public function checkCredentials($credentials, UserInterface $user)
     {
-        if (!$this->passwordEncoder->isPasswordValid($user, $credentials['password'])) {
+        if (!$this->passwordEncoder->isPasswordValid($user, $credentials['password']) || $user->getDeleted() == true) {
             throw new CustomUserMessageAuthenticationException('Il y a une erreur sur la saisie des informations.');
+        }
+        if ($user->getValidated() == false){
+            throw new CustomUserMessageAuthenticationException('Vous n\'avez pas encore validé votre compte,consultez vos emails');
         }
 
         return true;

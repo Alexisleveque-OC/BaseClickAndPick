@@ -29,7 +29,15 @@ class ResetTokenService
     {
         $email = $form['email'];
         $user = $this->userRepository->findOneByEmail($email);
-        $user = $user[0];
+        if (isset($user[0])) {
+            $user = $user[0];
+        } else {
+            throw new \Exception('Cette email n\'est pas enregistré.',404);
+        }
+
+        if ($user->getDeleted() === true) {
+            throw new \Exception('Cette email n\'est pas enregistré.',404);
+        }
 
         $newToken = $user->getToken()->generateToken();
         $user->getToken()->setToken($newToken);

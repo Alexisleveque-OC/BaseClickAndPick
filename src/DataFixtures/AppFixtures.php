@@ -132,7 +132,8 @@ class AppFixtures extends Fixture
                 $admin->setAddress($address);
                 $admin->setRestaurant($restaurant);
                 $admin->setValidated(true);
-                $admin->setToken($token);
+                $admin->setToken($token)
+                    ->setNote('je suis l\'admin');
 
                 $token->setUser($admin);
                 $manager->persist($token);
@@ -155,7 +156,8 @@ class AppFixtures extends Fixture
                 $user->setRoles(['ROLE_USER']);
                 $user->setAddress($address);
                 $user->setValidated(true);
-                $user->setToken($token);
+                $user->setToken($token)
+                    ->setNote(sprintf('note de l\'user%s', $i));
 
                 $token->setUser($user);
                 $manager->persist($token);

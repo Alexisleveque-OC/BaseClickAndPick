@@ -6,6 +6,7 @@ namespace App\Service\User;
 
 use App\Repository\TokenRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 
 class ValidationService
 {
@@ -29,7 +30,12 @@ class ValidationService
     public function validate(string $tokenValue)
     {
         $token = $this->tokenRepository->findOneByToken($tokenValue);
+        if (isset($token[0])){
         $token = $token[0];
+        }
+        else{
+            throw new Exception('Les informations envoyées ne sont pas valide.', 400);
+        }
 
         $token->getUser()->setValidated(true);
 

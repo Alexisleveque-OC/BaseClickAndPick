@@ -20,10 +20,20 @@ class UserRepository extends ServiceEntityRepository
         parent::__construct($registry, User::class);
     }
 
-    public function findOneById(string $token)
+    public function findAllUsersLinkedToRestaurantAndNotDeleted()
     {
         $qb = $this->getBaseQueryBuilder();
-        self::addIdClause($qb, $token);
+        self::addAminClause($qb);
+        self::addNotDeletedClause($qb);
+
+        return $qb->getQuery()
+            ->getResult();
+    }
+
+    public function findAllByUsername()
+    {
+        $qb = $this->getBaseQueryBuilder();
+        self::addUsernameOrder($qb);
 
         return $qb->getQuery()
             ->getResult();
@@ -37,6 +47,14 @@ class UserRepository extends ServiceEntityRepository
         return $qb->getQuery()
             ->getResult();
     }
+    public function findOneById(int $id)
+    {
+        $qb = $this->getBaseQueryBuilder();
+        self::addIdClause($qb, $id);
+
+        return $qb->getQuery()
+            ->getResult();
+    }
 
     protected function getBaseQueryBuilder()
     {
@@ -46,10 +64,26 @@ class UserRepository extends ServiceEntityRepository
 
     static function addIdClause(QueryBuilder $qb, int $id){
         return $qb->andWhere("u.id = :id")
-            ->setParameter('id',$id);
+            ->setParameter('id', $id);
     }
-    static function addEmailClause(QueryBuilder $qb, string $email){
+
+    static function addEmailClause(QueryBuilder $qb, string $email)
+    {
         return $qb->andWhere("u.email = :email")
-            ->setParameter('email',$email);
+            ->setParameter('email', $email);
+    }
+
+    static function addUsernameOrder(QueryBuilder $qb)
+    {
+        return $qb->addOrderBy("u.username");
+    }
+
+    static function addAminClause(QueryBuilder $qb)
+    {
+        return $qb->andWhere("u.restaurant IS NOT null");
+    }
+    static function addNotDeletedClause(QueryBuilder $qb)
+    {
+        return $qb->andWhere("u.deleted = false");
     }
 }
