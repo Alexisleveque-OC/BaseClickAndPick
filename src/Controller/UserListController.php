@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Form\UserAddNoteType;
 use App\Service\User\ListUsersService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -18,10 +19,12 @@ class UserListController extends AbstractController
      */
     public function listUsers(ListUsersService $listUsers): Response
     {
+        $formAddNote = $this->createForm(UserAddNoteType::class);
         $users = $listUsers->listUsers();
 
         return $this->render('user/list.html.twig', [
             'users' => $users,
+            'formAddNote' => $formAddNote->createView()
         ]);
     }
 }

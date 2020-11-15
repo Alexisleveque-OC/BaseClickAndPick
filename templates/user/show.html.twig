@@ -7,6 +7,7 @@
 
 {% block body %}
     {% include ('Modal/UserDeleteModal.html.twig') %}
+    {% include ('Modal/UserAddNoteModal.html.twig') %}
     <div class="container">
         <div class="title-user">
             {% if app.user == user %}
@@ -30,12 +31,22 @@
                 </ul>
             </div>
             <div class="col-xs-12 offset-sm-1 col-sm-8 img-thumbnail">
+
                 <h4>Résumé des informations</h4>
                 <p><strong>Email : </strong>{{ user.email }}</p>
                 <p><strong>Télephone : </strong>{{ user.tel }}</p>
                 <p><strong>Compte crée le : </strong>
                     {{ user.createdAt | date('d/m/Y') }} à {{ user.createdAt | date('h:i') }}
                 </p>
+                {% if is_granted('USER_ADD_NOTE') %}
+                    <p><strong>note : </strong>{{ user.note }}</p>
+                    <button class="btn btn-primary open-modal-add-note"
+                    data-user-name="{{ user.username }}"
+                    data-user-id="{{ user.id }}">
+                        Ajouter une note
+                    </button>
+                {% endif %}
+
                 {% if user.deleted == true %}
                     <p>Cette utilisateur est supprimé</p>
                 {% else %}
@@ -53,6 +64,7 @@
                 {% endif %}
 
                 <a href="{{ path('user_edit',{'id': user.id}) }}" class="btn btn-success"> Modifier les informations </a>
+
             </div>
         </div>
     </div>
@@ -65,6 +77,13 @@
             $('#userDeleteModal').modal('toggle');
             $('#userDeleteModal').find('.modal-title').text(this.dataset.userName);
             $('#userDeleteModal').find('#formDelete').attr("action", "/users/delete/" + this.dataset.userId);
+        });
+    </script>
+    <script>
+        $('.open-modal-add-note').click(function () {
+            $('#UserAddNoteModal').modal('toggle');
+            $('#UserAddNoteModal').find('.modal-title').text(this.dataset.userName);
+            $('#UserAddNoteModal').find('#formAddNote').attr("action", "/user/add-note/" + this.dataset.userId);
         });
     </script>
 {% endblock %}

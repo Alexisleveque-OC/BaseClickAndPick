@@ -16,6 +16,7 @@ class UserVoter extends Voter
     const USER_SHOW = "USER_SHOW";
     const USER_LIST = "USER_LIST";
     const USER_DELETE = "USER_DELETE";
+    const USER_ADD_NOTE = "USER_ADD_NOTE";
     /**
      * @var Security
      */
@@ -28,8 +29,8 @@ class UserVoter extends Voter
 
     protected function supports(string $attribute, $subject)
     {
-        return in_array($attribute,[self::USER_LIST]) ||
-            (in_array($attribute,[self::USER_SHOW, self::USER_DELETE])
+        return in_array($attribute,[self::USER_LIST,self::USER_ADD_NOTE]) ||
+            (in_array($attribute, [self::USER_SHOW, self::USER_DELETE])
                 && $subject instanceof User);
     }
 
@@ -39,14 +40,15 @@ class UserVoter extends Voter
         if (!$user instanceof UserInterface) {
             return false;
         }
-        switch ($attribute){
+        switch ($attribute) {
             case (
                 self::USER_SHOW ||
                 self::USER_DELETE
             ):
                 return $this->security->isGranted("ROLE_ADMIN") ||
                     $subject === $user;
-            case self::USER_LIST :
+            case (self::USER_LIST ||
+                self::USER_ADD_NOTE):
                 return $this->security->isGranted("ROLE_ADMIN");
         }
         return false;
