@@ -85,10 +85,16 @@ class User implements UserInterface
      */
     private $validated;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $deleted;
+
     public function __construct()
     {
         $this->bills = new ArrayCollection();
         $this->orders = new ArrayCollection();
+        $this->deleted = false;
     }
 
     public function getId(): ?int
@@ -303,6 +309,18 @@ class User implements UserInterface
     public function setValidated(bool $validated ): self
     {
         $this->validated = $validated;
+
+        return $this;
+    }
+
+    public function getDeleted(): ?bool
+    {
+        return $this->deleted;
+    }
+
+    public function setDeleted(bool $deleted): self
+    {
+        $this->deleted = $deleted;
 
         return $this;
     }

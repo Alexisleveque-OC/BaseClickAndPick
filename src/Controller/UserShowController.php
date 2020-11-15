@@ -3,7 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Service\User\ShowService;
+use App\Form\ConfirmationDeleteType;
+use App\Service\User\UserFinderService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,15 +16,18 @@ class UserShowController extends AbstractController
      * @Route("/user/show/{id}", name="user_show")
      * @IsGranted("USER_SHOW",subject="user")
      * @param User $user
-     * @param ShowService $showService
+     * @param UserFinderService $userFinder
      * @return Response
      */
-    public function Show(User $user, ShowService $showService): Response
+    public function Show(User $user, UserFinderService $userFinder): Response
     {
-        $user = $showService->findUser($user);
+        $formDelete = $this->createForm(ConfirmationDeleteType::class);
+
+        $user = $userFinder->findUserById($user);
 
         return $this->render('user/show.html.twig', [
             'user' => $user,
+            'formDelete' => $formDelete->createView(),
         ]);
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Form\MealDeleteType;
+use App\Form\ConfirmationDeleteType;
 use App\Form\MealType;
 use App\Service\Meal\ListCategoriesService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -22,7 +22,7 @@ class MenuController extends AbstractController
     {
         $categories = $listCategories->listCategories();
         $formMeal = $this->createForm(MealType::class);
-        $formDelete = $this->createForm(MealDeleteType::class);
+        $formDelete = $this->createForm(ConfirmationDeleteType::class);
 
         return $this->render('menu/index.html.twig', [
             'categories' => $categories,

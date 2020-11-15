@@ -1,0 +1,21 @@
+<div class="modal fade" id="userDeleteModal" tabindex="-1" role="dialog" aria-labelledby="userDeleteModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="userDeleteModalLabel">Supprimer cette utilisateur</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Êtes-vous sûr de vouloir supprimer ce compte?</p>
+            </div>
+            <div class="modal-footer">
+                {{ form_start(formDelete, {'attr': {'id': 'formDelete' }}) }}
+                {{ form_widget(formDelete) }}
+                {{ form_end(formDelete) }}
+            </div>
+        </div>
+    </div>
+</div>

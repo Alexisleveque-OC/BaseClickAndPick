@@ -19,6 +19,7 @@
         </thead>
         <tbody>
         {% for user in users %}
+            {% if user.deleted == false %}
             <tr>
                 <td><a href="{{ path('user_show',{'id': user.id}) }}">{{ user.username }}</a></td>
                 <td>{{ user.tel }}</td>
@@ -27,6 +28,7 @@
                 <td>{{ user.orders | length }}</td>
 {#                TODO : Rajouter un lien pour voir les commandes de ce client#}
             </tr>
+            {% endif %}
         {% endfor %}
 
         </tbody>

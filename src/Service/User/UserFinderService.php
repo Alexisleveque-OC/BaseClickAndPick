@@ -7,7 +7,7 @@ namespace App\Service\User;
 use App\Entity\User;
 use App\Repository\UserRepository;
 
-class ShowService
+class UserFinderService
 {
     /**
      * @var UserRepository
@@ -19,10 +19,16 @@ class ShowService
         $this->userRepository = $userRepository;
     }
 
-    public function findUser(User $user)
+    public function findUserById(User $user)
     {
         $user = $this->userRepository->findOneById($user->getId());
 
         return $user[0];
+    }
+    public function findUserByEmail(User $user)
+    {
+        $user = $this->userRepository->findOneByEmail($user->getEmail());
+
+        return $user;
     }
 }
